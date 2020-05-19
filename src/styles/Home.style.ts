@@ -34,5 +34,9 @@ export default StyleSheet.create({
   inputFocused: {
     borderColor: '#BF9ACA',
     borderWidth: 1.5,
+    shadowColor: '#7D5C86',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1.5,
   },
 });

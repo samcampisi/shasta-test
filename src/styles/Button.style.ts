@@ -12,7 +12,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   disabled: {
-    backgroundColor: '#575757',
+    opacity: 0.5,
   },
   text: {
     color: '#ffffff',
