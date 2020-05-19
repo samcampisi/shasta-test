@@ -1,6 +1,6 @@
 import Home from './containers/Home';
 import Settings from './containers/Settings';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
 import Icon from 'react-native-easy-icon';
 import 'react-native-gesture-handler';
@@ -9,14 +9,14 @@ const Tab = createBottomTabNavigator();
 
 export type AppTabParamList = {
   Home: undefined;
-  Settings: {userID?: string};
+  Settings: { userID?: string };
 };
 
 const App = () => {
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
           let iconName = '';
 
           if (route.name === 'Home') {

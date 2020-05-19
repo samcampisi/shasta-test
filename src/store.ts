@@ -10,7 +10,7 @@ import {
   Dispatch,
   MiddlewareAPI,
 } from 'redux';
-import {persistReducer, persistStore} from 'redux-persist';
+import { persistReducer, persistStore } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 
 /*ß

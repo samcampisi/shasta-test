@@ -1,36 +1,85 @@
-import {fetchUser} from '../actions/usersActions';
-import Strings from '../constants/strings';
-import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {RouteProp} from '@react-navigation/native';
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-import {connect} from 'react-redux';
-import {AppTabParamList} from '../App';
-import {User} from '../types';
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' + 'Shake or press menu button for dev menu',
-});
+import { fetchUser, resetUser, setUsername } from '../actions/usersActions';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { RouteProp } from '@react-navigation/native';
+import React, { Component } from 'react';
+import { Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { connect } from 'react-redux';
+import { AppTabParamList } from '../App';
+import { User } from '../types';
+import styles from '../styles/Home.style';
+import Button from '../components/Button';
 
 export interface HomeProps {
   fetchUser: typeof fetchUser;
+  resetUser: typeof resetUser;
+  setUsername: typeof setUsername;
   user: User;
+  username: string;
   navigation: BottomTabNavigationProp<AppTabParamList, 'Home'>;
   route: RouteProp<AppTabParamList, 'Home'>;
 }
 
-export class Home extends Component<HomeProps> {
-  componentDidMount() {
-    this.props.fetchUser('1');
+interface HomeState {
+  username: string;
+  inputFocused: boolean;
+}
+
+export class Home extends Component<HomeProps, HomeState> {
+  constructor(props: HomeProps) {
+    super(props);
+    this.state = {
+      username: '',
+      inputFocused: false,
+    };
   }
+
+  onChangeText = (text: string) => {
+    this.setState({ username: text });
+  };
+
+  onInputFocus = () => {
+    this.setState({ inputFocused: true });
+  };
+
+  onInputBlur = () => {
+    this.setState({ inputFocused: false });
+  };
+
+  onButtonPress = () => {
+    this.props.setUsername(this.state.username);
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>{Strings.hello}. Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit Home.tsx</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <Text style={styles.welcome}>
+          Welcome{this.props.username ? `, ${this.props.username}` : ''}!
+        </Text>
+        {!this.props.username && (
+          <View>
+            <Text style={styles.instructions}>Please set your username below:</Text>
+            <TextInput
+              style={[styles.input, this.state.inputFocused && styles.inputFocused]}
+              onChangeText={this.onChangeText}
+              value={this.state.username}
+              placeholder="paquita-salas"
+              onFocus={this.onInputFocus}
+              onBlur={this.onInputBlur}
+            />
+            <Button
+              onPress={this.onButtonPress}
+              title="Continue"
+              disabled={!this.state.username.length}
+            />
+          </View>
+        )}
+
+        <TouchableOpacity
+          onPress={() => {
+            this.props.resetUser();
+          }}>
+          <Text>Reset user</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -38,29 +87,13 @@ export class Home extends Component<HomeProps> {
 
 const mapStateToProps = (state: any) => ({
   user: state.users.user,
+  username: state.users.username,
 });
 
 const mapDispatchToProps = {
   fetchUser,
+  resetUser,
+  setUsername,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
