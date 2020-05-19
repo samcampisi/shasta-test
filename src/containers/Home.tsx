@@ -1,9 +1,9 @@
-import { resetUser, setUsername } from '../actions/usersActions';
+import { setUsername } from '../actions/usersActions';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { Text, View, TextInput } from 'react-native';
 import { AppTabParamList } from '../App';
 import styles from '../styles/Home.style';
 import Button from '../components/Button';
@@ -55,13 +55,6 @@ const Home = () => {
           <Button onPress={onButtonPress} title="Continue" disabled={!userName.length} />
         </View>
       )}
-
-      <TouchableOpacity
-        onPress={() => {
-          dispatch(resetUser());
-        }}>
-        <Text>Reset user</Text>
-      </TouchableOpacity>
     </View>
   );
 };
