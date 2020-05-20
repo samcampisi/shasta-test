@@ -1,8 +1,8 @@
 import * as types from '../actions/actionTypes';
-import {fetchUserFailure, fetchUserSuccess} from '../actions/usersActions';
+import { fetchUserFailure, fetchUserSuccess } from '../actions/usersActions';
 import JSONPlaceholderAPI from '../lib/jsonPlaceholderAPI';
-import {call, put, takeEvery} from 'redux-saga/effects';
-import {BaseAction} from '../types';
+import { call, put, takeEvery } from 'redux-saga/effects';
+import { BaseAction } from '../types';
 
 function* fetchUser(action: BaseAction) {
   try {
@@ -13,6 +13,11 @@ function* fetchUser(action: BaseAction) {
   }
 }
 
+// function* resetUser() {
+//   yield put({ type: types.USER.RESET });
+// }
+
 export default function* root() {
   yield takeEvery(types.USER.FETCH, fetchUser);
+  //yield takeEvery(types.USER.RESET, resetUser);
 }

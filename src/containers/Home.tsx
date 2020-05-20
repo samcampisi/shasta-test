@@ -1,66 +1,77 @@
-import {fetchUser} from '../actions/usersActions';
-import Strings from '../constants/strings';
-import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {RouteProp} from '@react-navigation/native';
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-import {connect} from 'react-redux';
-import {AppTabParamList} from '../App';
-import {User} from '../types';
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' + 'Shake or press menu button for dev menu',
-});
+import { setUsername } from '../actions/usersActions';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { RouteProp } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Text, View, TextInput } from 'react-native';
+import { AppTabParamList } from '../App';
+import styles from '../styles/Home.style';
+import Button from '../components/Button';
+import { animate, enableAnimation } from '../lib/animation';
 
 export interface HomeProps {
-  fetchUser: typeof fetchUser;
-  user: User;
+  username: string;
   navigation: BottomTabNavigationProp<AppTabParamList, 'Home'>;
   route: RouteProp<AppTabParamList, 'Home'>;
 }
 
-export class Home extends Component<HomeProps> {
-  componentDidMount() {
-    this.props.fetchUser('1');
-  }
+const Home = () => {
+  const [userName, setUserName] = useState('');
+  const [inputFocused, setInputFocused] = useState(false);
+  const username = useSelector((state: any) => state.users.username);
+  const dispatch = useDispatch();
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>{Strings.hello}. Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit Home.tsx</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
-    );
-  }
-}
+  useEffect(() => {
+    enableAnimation();
+  }, []);
 
-const mapStateToProps = (state: any) => ({
-  user: state.users.user,
-});
+  useEffect(() => {
+    animate();
+  }, [username]);
 
-const mapDispatchToProps = {
-  fetchUser,
+  const onChangeText = (text: string) => {
+    setUserName(text);
+  };
+
+  const onInputFocus = () => {
+    setInputFocused(true);
+  };
+
+  const onInputBlur = () => {
+    setInputFocused(false);
+  };
+
+  const onButtonPress = () => {
+    dispatch(setUsername(userName));
+    setUserName('');
+    animate();
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.welcome}>Welcome{username ? `, ${username}` : ''}!</Text>
+      {!username && (
+        <View>
+          <Text style={styles.instructions}>Please enter your username below:</Text>
+          <TextInput
+            style={[styles.input, inputFocused && styles.inputFocused]}
+            onChangeText={onChangeText}
+            value={userName}
+            placeholder="paquita-salas"
+            onFocus={onInputFocus}
+            onBlur={onInputBlur}
+            autoCapitalize="none"
+          />
+          <Button
+            onPress={onButtonPress}
+            title="Continue"
+            disabled={!userName.length}
+            testID="continue-button"
+          />
+        </View>
+      )}
+    </View>
+  );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+export default Home;
