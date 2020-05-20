@@ -42,7 +42,7 @@ const App = () => {
             iconName = focused ? 'settings' : 'settings-outline';
           } else if (route.name === 'Logout') {
             iconName = focused ? 'account-arrow-right' : 'account-arrow-right-outline';
-          } else if (route.name === 'UserDataPersonal') {
+          } else if (route.name === 'User Data Personal') {
             iconName = focused ? 'account-plus' : 'account-plus-outline';
           } // else if (route.name === 'UserDataList') {
           //   iconName = focused ? 'account-group' : 'account-group-outline';
