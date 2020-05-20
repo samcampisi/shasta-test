@@ -26,6 +26,10 @@ const App = () => {
 
   return (
     <Tab.Navigator
+      tabBarOptions={{
+        activeTintColor: '#ff66a4',
+        inactiveTintColor: 'gray',
+      }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName = '';

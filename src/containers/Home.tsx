@@ -1,12 +1,13 @@
 import { setUsername } from '../actions/usersActions';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Text, View, TextInput } from 'react-native';
 import { AppTabParamList } from '../App';
 import styles from '../styles/Home.style';
 import Button from '../components/Button';
+import { animate, enableAnimation } from '../lib/animation';
 
 export interface HomeProps {
   username: string;
@@ -19,6 +20,14 @@ const Home = () => {
   const [inputFocused, setInputFocused] = useState(false);
   const username = useSelector((state: any) => state.users.username);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    enableAnimation();
+  }, []);
+
+  useEffect(() => {
+    animate();
+  }, [username]);
 
   const onChangeText = (text: string) => {
     setUserName(text);
@@ -35,6 +44,7 @@ const Home = () => {
   const onButtonPress = () => {
     dispatch(setUsername(userName));
     setUserName('');
+    animate();
   };
 
   return (
