@@ -1,0 +1,189 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button Basic button should match snapshot 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "alignSelf": "center",
+      "backgroundColor": "#ff66a4",
+      "borderRadius": 15,
+      "flexDirection": "row",
+      "margin": 15,
+      "opacity": 1,
+      "paddingHorizontal": 15,
+      "paddingVertical": 10,
+    }
+  }
+>
+  <Text
+    style={
+      Array [
+        Object {
+          "color": "#ffffff",
+          "fontSize": 16,
+          "fontWeight": "600",
+        },
+        undefined,
+      ]
+    }
+  >
+    Test title
+  </Text>
+</View>
+`;
+
+exports[`Button Button with custom icon should match snapshot 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "alignSelf": "center",
+      "backgroundColor": "#ff66a4",
+      "borderRadius": 15,
+      "flexDirection": "row",
+      "margin": 15,
+      "opacity": 1,
+      "paddingHorizontal": 15,
+      "paddingVertical": 10,
+    }
+  }
+>
+  <Image
+    resizeMode="contain"
+    source={
+      Object {
+        "source": "https://d2ph5fj80uercy.cloudfront.net/06/cat1996.jpg",
+      }
+    }
+    style={
+      Array [
+        Object {
+          "height": 25,
+          "marginRight": 10,
+          "tintColor": "#ffffff",
+          "width": 30,
+        },
+        undefined,
+      ]
+    }
+    testID="button-icon"
+  />
+  <Text
+    style={
+      Array [
+        Object {
+          "color": "#ffffff",
+          "fontSize": 16,
+          "fontWeight": "600",
+        },
+        undefined,
+      ]
+    }
+  >
+    Test title
+  </Text>
+</View>
+`;
+
+exports[`Button Button with custom style should match snapshot 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "alignSelf": "center",
+      "backgroundColor": "yellow",
+      "borderRadius": 15,
+      "flexDirection": "row",
+      "margin": 15,
+      "opacity": 1,
+      "paddingHorizontal": 15,
+      "paddingVertical": 10,
+    }
+  }
+>
+  <Text
+    style={
+      Array [
+        Object {
+          "color": "#ffffff",
+          "fontSize": 16,
+          "fontWeight": "600",
+        },
+        undefined,
+      ]
+    }
+  >
+    Test title
+  </Text>
+</View>
+`;
+
+exports[`Button Disabled should match snapshot 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "alignSelf": "center",
+      "backgroundColor": "#ff66a4",
+      "borderRadius": 15,
+      "flexDirection": "row",
+      "margin": 15,
+      "opacity": 0.5,
+      "paddingHorizontal": 15,
+      "paddingVertical": 10,
+    }
+  }
+>
+  <Text
+    style={
+      Array [
+        Object {
+          "color": "#ffffff",
+          "fontSize": 16,
+          "fontWeight": "600",
+        },
+        undefined,
+      ]
+    }
+  >
+    Test title
+  </Text>
+</View>
+`;

@@ -18,10 +18,11 @@ export interface ButtonProps {
   textStyle?: StyleProp<ViewStyle>;
   imageStyle?: StyleProp<ImageStyle>;
   icon?: ImagePropertiesSourceOptions;
+  testID?: string;
 }
 
 const Button = (props: ButtonProps) => {
-  const { title, disabled, onPress, style, textStyle, icon, imageStyle } = props;
+  const { title, disabled, onPress, style, textStyle, icon, imageStyle, testID } = props;
 
   const onButtonPress = () => {
     !disabled && onPress && onPress();
@@ -29,10 +30,18 @@ const Button = (props: ButtonProps) => {
 
   return (
     <TouchableOpacity
+      testID={testID}
       style={[styles.container, disabled && styles.disabled, style]}
       disabled={disabled}
       onPress={onButtonPress}>
-      {icon && <Image source={icon} style={[styles.icon, imageStyle]} resizeMode="contain" />}
+      {icon && (
+        <Image
+          source={icon}
+          style={[styles.icon, imageStyle]}
+          resizeMode="contain"
+          testID="button-icon"
+        />
+      )}
       <Text style={[styles.text, textStyle]}>{title}</Text>
     </TouchableOpacity>
   );

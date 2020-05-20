@@ -62,7 +62,12 @@ const Home = () => {
             onBlur={onInputBlur}
             autoCapitalize="none"
           />
-          <Button onPress={onButtonPress} title="Continue" disabled={!userName.length} />
+          <Button
+            onPress={onButtonPress}
+            title="Continue"
+            disabled={!userName.length}
+            testID="continue-button"
+          />
         </View>
       )}
     </View>
