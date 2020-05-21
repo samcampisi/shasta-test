@@ -7,6 +7,7 @@ import {
   ImagePropertiesSourceOptions,
   Image,
   ImageStyle,
+  TextStyle,
 } from 'react-native';
 import styles from '../styles/Button.style';
 
@@ -15,7 +16,7 @@ export interface ButtonProps {
   disabled?: boolean;
   onPress?: () => void;
   style?: StyleProp<ViewStyle>;
-  textStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
   imageStyle?: StyleProp<ImageStyle>;
   icon?: ImagePropertiesSourceOptions;
   testID?: string;

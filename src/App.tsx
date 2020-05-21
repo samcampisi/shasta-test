@@ -1,5 +1,6 @@
 import Home from './containers/Home';
 import Settings from './containers/Settings';
+import UserDataPersonal from './containers/UserDataPersonal';
 import Logout from './containers/Logout';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
@@ -15,6 +16,7 @@ const Tab = createBottomTabNavigator();
 export type AppTabParamList = {
   Home: undefined;
   Settings: { userID?: string };
+  UserDataPersonal: undefined;
 };
 
 const App = () => {
@@ -40,7 +42,11 @@ const App = () => {
             iconName = focused ? 'settings' : 'settings-outline';
           } else if (route.name === 'Logout') {
             iconName = focused ? 'account-arrow-right' : 'account-arrow-right-outline';
-          }
+          } else if (route.name === 'User Data Personal') {
+            iconName = focused ? 'account-plus' : 'account-plus-outline';
+          } // else if (route.name === 'UserDataList') {
+          //   iconName = focused ? 'account-group' : 'account-group-outline';
+          // }
 
           // You can return any component that you like here!
           return <Icon name={iconName} type="material-community" size={size} color={color} />;
@@ -48,6 +54,7 @@ const App = () => {
       })}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Settings" component={Settings} />
+      <Tab.Screen name="User Data Personal" component={UserDataPersonal} />
       <Tab.Screen
         name="Logout"
         component={Logout}

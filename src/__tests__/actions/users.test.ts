@@ -1,26 +1,44 @@
 import * as types from '../../actions/actionTypes';
-import { fetchUser, fetchUserFailure, fetchUserSuccess } from '../../actions/usersActions';
+import { resetUser, saveUser, clearUsers, setUsername } from '../../actions/usersActions';
 
-test('should fetchUser', () => {
-  const payload = '1';
-  expect(fetchUser(payload)).toMatchObject({
-    type: types.USER.FETCH,
+test('should resetUser', () => {
+  expect(resetUser()).toMatchObject({
+    type: types.USER.RESET,
+  });
+});
+
+test('should saveUser', () => {
+  const payload = {
+    name: 'Test',
+    lastName: 'User',
+    birthdate: new Date('1988-09-30T12:00:00-06:30'),
+    profilePicture: undefined,
+    country: {
+      cca2: 'ES',
+      region: 'Europe',
+      subregion: 'Southern Europe',
+      name: 'Spain',
+      currency: ['EUR'],
+      callingCode: ['34'],
+      flag: 'flag-es',
+    },
+  };
+  expect(saveUser(payload)).toMatchObject({
+    type: types.USER.SAVE,
     payload,
   });
 });
 
-test('should fetchUserSuccess', () => {
-  const payload = {};
-  expect(fetchUserSuccess(payload)).toMatchObject({
-    type: types.USER.FETCH_SUCCESS,
-    payload,
+test('should clearUsers', () => {
+  expect(clearUsers()).toMatchObject({
+    type: types.USER.CLEAR_USERS,
   });
 });
 
-test('should fetchUserFailure', () => {
-  const payload = 'error';
-  expect(fetchUserFailure(payload)).toMatchObject({
-    type: types.USER.FETCH_FAILURE,
+test('should setUsername', () => {
+  const payload = 'testuser';
+  expect(setUsername(payload)).toMatchObject({
+    type: types.USER.SET_USERNAME,
     payload,
   });
 });
