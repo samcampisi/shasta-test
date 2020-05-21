@@ -86,7 +86,7 @@ const UserDataPersonal = () => {
   const onUserSave = () => {
     dispatch(saveUser(user));
     setUser(blankUser);
-    NavigationService.navigate('Settings');
+    NavigationService.navigate('User Data List');
   };
 
   const renderActionSheet = () => {
