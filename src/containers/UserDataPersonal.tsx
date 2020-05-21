@@ -182,6 +182,7 @@ const UserDataPersonal = () => {
               justifyContent: 'center',
               paddingHorizontal: 15,
               borderRadius: 20,
+              maxWidth: 200,
             },
           }}
           visible={showCountryPicker}
