@@ -34,7 +34,7 @@ export interface UserDataPersonalProps {
 const blankUser = {
   name: '',
   lastName: '',
-  birthdate: new Date(),
+  birthdate: new Date('1988-09-30T12:00:00-06:30'),
   profilePicture: undefined,
   country: {
     cca2: 'ES',
