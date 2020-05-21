@@ -14,13 +14,7 @@ function createActionTypes(base: string, types: string[]) {
 
 export const APP = createActionTypes('APP', ['SET_STORE_STATE']);
 
-export const USER = createActionTypes('USER', [
-  'FETCH',
-  'FETCH_SUCCESS',
-  'FETCH_FAILURE',
-  'RESET',
-  'SET_USERNAME',
-]);
+export const USER = createActionTypes('USER', ['RESET', 'SET_USERNAME', 'SAVE', 'CLEAR_USERS']);
 
 export default {
   app: APP,

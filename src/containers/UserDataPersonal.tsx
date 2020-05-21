@@ -1,4 +1,4 @@
-import { setUsername } from '../actions/usersActions';
+import { saveUser } from '../actions/usersActions';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
@@ -23,6 +23,7 @@ import Button from '../components/Button';
 import { animate, enableAnimation } from '../lib/animation';
 import { openCamera, openPicker } from '../lib/PickerManager';
 import CustomTextInput from '../components/CustomTextInput';
+import NavigationService from '../lib/NavigationService';
 
 export interface UserDataPersonalProps {
   username: string;
@@ -38,11 +39,11 @@ const blankUser = {
   country: {
     cca2: 'ES',
     region: 'Europe',
-    subregion: '',
-    name: '',
-    currency: '',
-    callingCode: '',
-    flag: '',
+    subregion: 'Southern Europe',
+    name: 'Spain',
+    currency: ['EUR'],
+    callingCode: ['34'],
+    flag: 'flag-es',
   },
 };
 
@@ -59,7 +60,7 @@ const UserDataPersonal = () => {
 
   useEffect(() => {
     animate();
-  }, [user, showDatepicker]);
+  }, [user.birthdate, user.country, showDatepicker]);
 
   const onImagePress = () => {
     actionSheet.show();
@@ -78,9 +79,14 @@ const UserDataPersonal = () => {
   };
 
   const onSelectCountry = (country: any) => {
-    console.warn('country', country);
     setUser({ ...user, country });
     setShowCountryPicker(false);
+  };
+
+  const onUserSave = () => {
+    dispatch(saveUser(user));
+    setUser(blankUser);
+    NavigationService.navigate('Settings');
   };
 
   const renderActionSheet = () => {
@@ -110,6 +116,107 @@ const UserDataPersonal = () => {
     );
   };
 
+  const renderProfilePicture = () => {
+    return (
+      <TouchableOpacity onPress={onImagePress}>
+        <View style={styles.imageContainer}>
+          <Image
+            style={[styles.image, !user.profilePicture && styles.opaque]}
+            source={
+              user.profilePicture
+                ? {
+                    uri: user.profilePicture,
+                  }
+                : require('../../assets/img-placeholder.jpg')
+            }
+          />
+          <View style={styles.iconContainer}>
+            <Image
+              source={require('../../assets/ic_camera.png')}
+              style={styles.imageIcon}
+              testID="update-avatar-image"
+            />
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  const renderDateButton = () => {
+    return (
+      <View style={styles.fill}>
+        <View style={styles.leftItem}>
+          <Text style={styles.label}>Birth date:</Text>
+
+          <Button
+            onPress={() => {
+              setShowDatePicker(!showDatepicker);
+            }}
+            icon={require('../../assets/ic_calendar.png')}
+            title={moment(user.birthdate).format('L')}
+            style={[styles.button, styles.customButton, showDatepicker && styles.inputFocused]}
+            textStyle={styles.buttonText}
+            imageStyle={styles.buttonImage}
+          />
+        </View>
+      </View>
+    );
+  };
+
+  const renderCountryPicker = () => {
+    return (
+      <View style={styles.fill}>
+        <View style={styles.rightItem}>
+          <Text style={styles.label}>Country:</Text>
+          <CountryPicker
+            {...{
+              countryCode: user.country.cca2,
+              withFilter: true,
+              withFlag: true,
+              withCountryNameButton: true,
+              withFlagButton: true,
+              onSelect: onSelectCountry,
+              // Style won't apply if it's not inline
+              containerButtonStyle: {
+                backgroundColor: '#ffffff',
+                borderWidth: 1,
+                borderColor: '#222222',
+                marginTop: 15,
+                minHeight: 40,
+                justifyContent: 'center',
+                paddingHorizontal: 15,
+                borderRadius: 12,
+              },
+            }}
+            visible={showCountryPicker}
+          />
+        </View>
+      </View>
+    );
+  };
+
+  const renderDatePicker = () => {
+    return (
+      <View style={[styles.fill, styles.horizontal]}>
+        {showDatepicker && (
+          <DateTimePicker
+            style={styles.fullWidth}
+            testID="dateTimePicker"
+            timeZoneOffsetInMinutes={0}
+            value={user.birthdate}
+            mode={'date'}
+            is24Hour={true}
+            display="default"
+            onChange={(event, date) => {
+              setShowDatePicker(Platform.OS === 'ios');
+              setUser({ ...user, birthdate: date || user.birthdate });
+            }}
+          />
+        )}
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       {renderActionSheet()}
@@ -121,30 +228,10 @@ const UserDataPersonal = () => {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
           contentContainerStyle={[styles.fullWidth, styles.centerItems]}>
-          <TouchableOpacity onPress={onImagePress}>
-            <View style={styles.imageContainer}>
-              <Image
-                style={[styles.image, !user.profilePicture && styles.opaque]}
-                source={
-                  user.profilePicture
-                    ? {
-                        uri: user.profilePicture,
-                      }
-                    : require('../../assets/img-placeholder.jpg')
-                }
-              />
-              <View style={styles.iconContainer}>
-                <Image
-                  source={require('../../assets/ic_camera.png')}
-                  style={styles.imageIcon}
-                  testID="update-avatar-image"
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
+          {renderProfilePicture()}
           <View style={[styles.horizontal, styles.topSpacing]}>
             <CustomTextInput
-              label="Name"
+              label="Name (*)"
               onChangeText={(text: string) => {
                 setUser({ ...user, name: text });
               }}
@@ -153,7 +240,7 @@ const UserDataPersonal = () => {
               style={styles.leftItem}
             />
             <CustomTextInput
-              label="Last Name"
+              label="Last Name (*)"
               onChangeText={(text: string) => {
                 setUser({ ...user, lastName: text });
               }}
@@ -163,77 +250,18 @@ const UserDataPersonal = () => {
             />
           </View>
           <View style={[styles.horizontal, styles.topSpacing]}>
-            <View style={styles.fill}>
-              <View style={styles.leftItem}>
-                <Text style={styles.label}>Birth date:</Text>
-
-                <Button
-                  onPress={() => {
-                    setShowDatePicker(!showDatepicker);
-                  }}
-                  icon={require('../../assets/ic_calendar.png')}
-                  title={moment(user.birthdate).format('L')}
-                  style={[styles.button, styles.customButton]}
-                  textStyle={styles.buttonText}
-                  imageStyle={styles.buttonImage}
-                />
-              </View>
-            </View>
-            <View style={styles.fill}>
-              <View style={styles.rightItem}>
-                <Text style={styles.label}>Country:</Text>
-                <CountryPicker
-                  {...{
-                    countryCode: user.country.cca2,
-                    withFilter: true,
-                    withFlag: true,
-                    withCountryNameButton: true,
-                    withFlagButton: true,
-                    onSelect: onSelectCountry,
-                    // Style won't apply if it's not inline
-                    containerButtonStyle: {
-                      backgroundColor: '#ffffff',
-                      borderWidth: 1,
-                      borderColor: '#222222',
-                      marginTop: 15,
-                      minHeight: 40,
-                      justifyContent: 'center',
-                      paddingHorizontal: 15,
-                      borderRadius: 12,
-                    },
-                  }}
-                  visible={showCountryPicker}
-                />
-              </View>
-            </View>
+            {renderDateButton()}
+            {renderCountryPicker()}
           </View>
-          <View style={[styles.fill, styles.horizontal]}>
-            {showDatepicker && (
-              <DateTimePicker
-                style={styles.fullWidth}
-                testID="dateTimePicker"
-                timeZoneOffsetInMinutes={0}
-                value={user.birthdate}
-                mode={'date'}
-                is24Hour={true}
-                display="default"
-                onChange={(event, date) => {
-                  setShowDatePicker(Platform.OS === 'ios');
-                  setUser({ ...user, birthdate: date || user.birthdate });
-                }}
-              />
-            )}
-          </View>
+          {renderDatePicker()}
         </ScrollView>
       </KeyboardAvoidingView>
-      {
-        <Button
-          onPress={() => {
-            setShowDatePicker(!showDatepicker);
-          }}
-          title="Save User"
-        />
-      }
+
+      <Button
+        onPress={onUserSave}
+        title="Save User"
+        disabled={!user.name.length || !user.lastName.length}
+      />
     </SafeAreaView>
   );
 };

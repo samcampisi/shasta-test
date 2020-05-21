@@ -116,6 +116,6 @@ export default StyleSheet.create({
     paddingHorizontal: 15,
   },
   topSpacing: {
-    marginTop: 15,
+    marginTop: 20,
   },
 });
