@@ -16,6 +16,10 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#e9e9e9',
   },
+  fill: { flex: 1 },
+  horizontal: { flexDirection: 'row' },
+  fullWidth: { width: '100%' },
+  centerItems: { alignItems: 'center' },
   input: {
     height: 40,
     borderColor: '#555555',
@@ -75,5 +79,43 @@ export default StyleSheet.create({
     tintColor: '#ffffff',
     width: 22,
     height: 22,
+  },
+  leftItem: {
+    marginLeft: 15,
+    marginRight: 7.5,
+  },
+  rightItem: {
+    marginRight: 15,
+    marginLeft: 7.5,
+  },
+  label: {
+    fontSize: 16,
+  },
+  customButton: {
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#222222',
+    borderRadius: 12,
+    minHeight: 40,
+  },
+  button: {
+    alignSelf: 'flex-start',
+    marginHorizontal: 0,
+    paddingVertical: 9,
+  },
+  buttonText: {
+    color: '#222222',
+  },
+  buttonImage: {
+    width: 17,
+    height: 17,
+    tintColor: '#222222',
+  },
+  countryButton: {
+    justifyContent: 'center',
+    paddingHorizontal: 15,
+  },
+  topSpacing: {
+    marginTop: 15,
   },
 });

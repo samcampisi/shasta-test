@@ -3,13 +3,26 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { View, Image, TouchableOpacity, SafeAreaView, Text } from 'react-native';
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  Text,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
+import moment from 'moment';
 import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import CountryPicker from 'react-native-country-picker-modal';
 import { AppTabParamList } from '../App';
 import styles, { sheetStyles } from '../styles/UserDataPersonal.style';
 import Button from '../components/Button';
 import { animate, enableAnimation } from '../lib/animation';
 import { openCamera, openPicker } from '../lib/PickerManager';
+import CustomTextInput from '../components/CustomTextInput';
 
 export interface UserDataPersonalProps {
   username: string;
@@ -17,8 +30,26 @@ export interface UserDataPersonalProps {
   route: RouteProp<AppTabParamList, 'UserDataPersonal'>;
 }
 
+const blankUser = {
+  name: '',
+  lastName: '',
+  birthdate: new Date(),
+  profilePicture: undefined,
+  country: {
+    cca2: 'ES',
+    region: 'Europe',
+    subregion: '',
+    name: '',
+    currency: '',
+    callingCode: '',
+    flag: '',
+  },
+};
+
 const UserDataPersonal = () => {
-  const [imgSrc, setImgSrc] = useState(null);
+  const [user, setUser] = useState(blankUser);
+  const [showDatepicker, setShowDatePicker] = useState(false);
+  const [showCountryPicker, setShowCountryPicker] = useState(false);
   const dispatch = useDispatch();
   let actionSheet: any;
 
@@ -26,20 +57,30 @@ const UserDataPersonal = () => {
     enableAnimation();
   }, []);
 
+  useEffect(() => {
+    animate();
+  }, [user, showDatepicker]);
+
   const onImagePress = () => {
     actionSheet.show();
   };
 
   const openPickerCamera = () => {
     openCamera().then((image: any) => {
-      setImgSrc(image.path);
+      setUser({ ...user, profilePicture: image.path });
     });
   };
 
   const openPickerPicker = () => {
     openPicker().then((image: any) => {
-      setImgSrc(image.path);
+      setUser({ ...user, profilePicture: image.path });
     });
+  };
+
+  const onSelectCountry = (country: any) => {
+    console.warn('country', country);
+    setUser({ ...user, country });
+    setShowCountryPicker(false);
   };
 
   const renderActionSheet = () => {
@@ -73,27 +114,126 @@ const UserDataPersonal = () => {
     <SafeAreaView style={styles.container}>
       {renderActionSheet()}
       <Text style={styles.title}>Add New User Data</Text>
-      <TouchableOpacity style={styles.imageContainer} onPress={onImagePress}>
-        <View>
-          <Image
-            style={[styles.image, !imgSrc && styles.opaque]}
-            source={
-              imgSrc
-                ? {
-                    uri: imgSrc,
-                  }
-                : require('../../assets/img-placeholder.jpg')
-            }
-          />
-          <View style={styles.iconContainer}>
-            <Image
-              source={require('../../assets/ic_camera.png')}
-              style={styles.imageIcon}
-              testID="update-avatar-image"
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={[styles.fullWidth, styles.centerItems]}>
+          <TouchableOpacity onPress={onImagePress}>
+            <View style={styles.imageContainer}>
+              <Image
+                style={[styles.image, !user.profilePicture && styles.opaque]}
+                source={
+                  user.profilePicture
+                    ? {
+                        uri: user.profilePicture,
+                      }
+                    : require('../../assets/img-placeholder.jpg')
+                }
+              />
+              <View style={styles.iconContainer}>
+                <Image
+                  source={require('../../assets/ic_camera.png')}
+                  style={styles.imageIcon}
+                  testID="update-avatar-image"
+                />
+              </View>
+            </View>
+          </TouchableOpacity>
+          <View style={[styles.horizontal, styles.topSpacing]}>
+            <CustomTextInput
+              label="Name"
+              onChangeText={(text: string) => {
+                setUser({ ...user, name: text });
+              }}
+              value={user.name}
+              placeholder="Paquita"
+              style={styles.leftItem}
+            />
+            <CustomTextInput
+              label="Last Name"
+              onChangeText={(text: string) => {
+                setUser({ ...user, lastName: text });
+              }}
+              value={user.lastName}
+              placeholder="Salas"
+              style={styles.rightItem}
             />
           </View>
-        </View>
-      </TouchableOpacity>
+          <View style={[styles.horizontal, styles.topSpacing]}>
+            <View style={styles.fill}>
+              <View style={styles.leftItem}>
+                <Text style={styles.label}>Birth date:</Text>
+
+                <Button
+                  onPress={() => {
+                    setShowDatePicker(!showDatepicker);
+                  }}
+                  icon={require('../../assets/ic_calendar.png')}
+                  title={moment(user.birthdate).format('L')}
+                  style={[styles.button, styles.customButton]}
+                  textStyle={styles.buttonText}
+                  imageStyle={styles.buttonImage}
+                />
+              </View>
+            </View>
+            <View style={styles.fill}>
+              <View style={styles.rightItem}>
+                <Text style={styles.label}>Country:</Text>
+                <CountryPicker
+                  {...{
+                    countryCode: user.country.cca2,
+                    withFilter: true,
+                    withFlag: true,
+                    withCountryNameButton: true,
+                    withFlagButton: true,
+                    onSelect: onSelectCountry,
+                    // Style won't apply if it's not inline
+                    containerButtonStyle: {
+                      backgroundColor: '#ffffff',
+                      borderWidth: 1,
+                      borderColor: '#222222',
+                      marginTop: 15,
+                      minHeight: 40,
+                      justifyContent: 'center',
+                      paddingHorizontal: 15,
+                      borderRadius: 12,
+                    },
+                  }}
+                  visible={showCountryPicker}
+                />
+              </View>
+            </View>
+          </View>
+          <View style={[styles.fill, styles.horizontal]}>
+            {showDatepicker && (
+              <DateTimePicker
+                style={styles.fullWidth}
+                testID="dateTimePicker"
+                timeZoneOffsetInMinutes={0}
+                value={user.birthdate}
+                mode={'date'}
+                is24Hour={true}
+                display="default"
+                onChange={(event, date) => {
+                  setShowDatePicker(Platform.OS === 'ios');
+                  setUser({ ...user, birthdate: date || user.birthdate });
+                }}
+              />
+            )}
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+      {
+        <Button
+          onPress={() => {
+            setShowDatePicker(!showDatepicker);
+          }}
+          title="Save User"
+        />
+      }
     </SafeAreaView>
   );
 };
