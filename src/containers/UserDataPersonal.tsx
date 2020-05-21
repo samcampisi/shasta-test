@@ -144,60 +144,55 @@ const UserDataPersonal = () => {
 
   const renderDateButton = () => {
     return (
-      <View style={styles.fill}>
-        <View style={styles.leftItem}>
-          <Text style={styles.label}>Birth date:</Text>
+      <View style={[styles.horizontal, styles.centerItems]}>
+        <Text style={styles.label}>Birth date:</Text>
 
-          <Button
-            onPress={() => {
-              setShowDatePicker(!showDatepicker);
-            }}
-            icon={require('../../assets/ic_calendar.png')}
-            title={moment(user.birthdate).format('L')}
-            style={[styles.button, styles.customButton, showDatepicker && styles.inputFocused]}
-            textStyle={styles.buttonText}
-            imageStyle={styles.buttonImage}
-          />
-        </View>
+        <Button
+          onPress={() => {
+            setShowDatePicker(!showDatepicker);
+          }}
+          icon={require('../../assets/ic_calendar.png')}
+          title={moment(user.birthdate).format('L')}
+          style={[styles.button, styles.customButton, showDatepicker && styles.inputFocused]}
+          textStyle={styles.buttonText}
+          imageStyle={styles.buttonImage}
+        />
       </View>
     );
   };
 
   const renderCountryPicker = () => {
     return (
-      <View style={styles.fill}>
-        <View style={styles.rightItem}>
-          <Text style={styles.label}>Country:</Text>
-          <CountryPicker
-            {...{
-              countryCode: user.country.cca2,
-              withFilter: true,
-              withFlag: true,
-              withCountryNameButton: true,
-              withFlagButton: true,
-              onSelect: onSelectCountry,
-              // Style won't apply if it's not inline
-              containerButtonStyle: {
-                backgroundColor: '#ffffff',
-                borderWidth: 1,
-                borderColor: '#222222',
-                marginTop: 15,
-                minHeight: 40,
-                justifyContent: 'center',
-                paddingHorizontal: 15,
-                borderRadius: 12,
-              },
-            }}
-            visible={showCountryPicker}
-          />
-        </View>
+      <View style={[styles.horizontal, styles.centerItems]}>
+        <Text style={styles.label}>Country:</Text>
+        <CountryPicker
+          {...{
+            countryCode: user.country.cca2,
+            withFilter: true,
+            withFlag: true,
+            withCountryNameButton: true,
+            withFlagButton: true,
+            onSelect: onSelectCountry,
+            // Style won't apply if it's not inline
+            containerButtonStyle: {
+              backgroundColor: '#ffffff',
+              borderWidth: 1,
+              borderColor: '#222222',
+              minHeight: 40,
+              justifyContent: 'center',
+              paddingHorizontal: 15,
+              borderRadius: 20,
+            },
+          }}
+          visible={showCountryPicker}
+        />
       </View>
     );
   };
 
   const renderDatePicker = () => {
     return (
-      <View style={[styles.fill, styles.horizontal]}>
+      <View style={[styles.horizontal]}>
         {showDatepicker && (
           <DateTimePicker
             style={styles.fullWidth}
@@ -227,9 +222,9 @@ const UserDataPersonal = () => {
         <ScrollView
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={[styles.fullWidth, styles.centerItems]}>
+          contentContainerStyle={[styles.fullWidth]}>
           {renderProfilePicture()}
-          <View style={[styles.horizontal, styles.topSpacing]}>
+          <View style={[styles.topSpacing]}>
             <CustomTextInput
               label="Name (*)"
               onChangeText={(text: string) => {
@@ -237,7 +232,8 @@ const UserDataPersonal = () => {
               }}
               value={user.name}
               placeholder="Paquita"
-              style={styles.leftItem}
+              style={[{ flex: undefined }]}
+              horizontal
             />
             <CustomTextInput
               label="Last Name (*)"
@@ -246,14 +242,13 @@ const UserDataPersonal = () => {
               }}
               value={user.lastName}
               placeholder="Salas"
-              style={styles.rightItem}
+              style={[{ flex: undefined }]}
+              horizontal
             />
-          </View>
-          <View style={[styles.horizontal, styles.topSpacing]}>
             {renderDateButton()}
+            {renderDatePicker()}
             {renderCountryPicker()}
           </View>
-          {renderDatePicker()}
         </ScrollView>
       </KeyboardAvoidingView>
 
@@ -261,6 +256,7 @@ const UserDataPersonal = () => {
         onPress={onUserSave}
         title="Save User"
         disabled={!user.name.length || !user.lastName.length}
+        style={styles.mainButton}
       />
     </SafeAreaView>
   );

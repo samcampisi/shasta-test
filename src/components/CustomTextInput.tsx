@@ -36,17 +36,21 @@ const CustomTextInput = (props: CustomTextInputProps) => {
 
   return (
     <View style={[styles.container, horizontal && styles.horizontal, style]} testID={testID}>
-      {Boolean(label) && <Text style={styles.label}>{label}</Text>}
-      <TextInput
-        style={[styles.input, inputFocused && styles.inputFocused]}
-        onChangeText={onChangeText}
-        value={value}
-        placeholder={placeholder}
-        onFocus={onInputFocus}
-        onBlur={onInputBlur}
-        autoCapitalize={autoCapitalize}
-        autoCorrect={false}
-      />
+      {Boolean(label) && (
+        <Text style={[styles.label, horizontal && styles.horizontalLabel]}>{label}</Text>
+      )}
+      <View style={[styles.inputContainer, horizontal && styles.horizontalInput]}>
+        <TextInput
+          style={[styles.input, inputFocused && styles.inputFocused]}
+          onChangeText={onChangeText}
+          value={value}
+          placeholder={placeholder}
+          onFocus={onInputFocus}
+          onBlur={onInputBlur}
+          autoCapitalize={autoCapitalize}
+          autoCorrect={false}
+        />
+      </View>
     </View>
   );
 };

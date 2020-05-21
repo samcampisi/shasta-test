@@ -13,8 +13,7 @@ export const sheetStyles = {
 export default StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#e9e9e9',
+    backgroundColor: '#ffffff',
   },
   fill: { flex: 1 },
   horizontal: { flexDirection: 'row' },
@@ -53,6 +52,7 @@ export default StyleSheet.create({
     width: 120,
     justifyContent: 'flex-end',
     marginTop: 15,
+    alignSelf: 'center',
   },
   image: {
     height: 120,
@@ -90,12 +90,17 @@ export default StyleSheet.create({
   },
   label: {
     fontSize: 16,
+    fontWeight: 'bold',
+    width: '30%',
+    marginLeft: 15,
+    textAlign: 'right',
+    paddingRight: 10,
   },
   customButton: {
     backgroundColor: '#ffffff',
     borderWidth: 1,
     borderColor: '#222222',
-    borderRadius: 12,
+    borderRadius: 20,
     minHeight: 40,
   },
   button: {
@@ -117,5 +122,10 @@ export default StyleSheet.create({
   },
   topSpacing: {
     marginTop: 20,
+  },
+  mainButton: {
+    width: '75%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
