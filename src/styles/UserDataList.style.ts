@@ -31,4 +31,20 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     color: '#ff66a4',
   },
+  alternativeItem: {
+    backgroundColor: '#ffffff',
+  },
+  separator: {
+    width: '95%',
+    height: 1,
+    backgroundColor: '#CCCCCC',
+    alignSelf: 'flex-end',
+  },
+  header: {
+    alignItems: 'center',
+  },
+  headerText: {
+    fontSize: 16,
+    marginVertical: 10,
+  },
 });

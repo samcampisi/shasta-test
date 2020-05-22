@@ -25,6 +25,10 @@ const UserInfoItem = (props: UserInfoItemProps) => {
     animate();
   }, [showDetails]);
 
+  const onShowDetailPress = () => {
+    setShowDetails(!showDetails);
+  };
+
   const renderProfilePicture = () => {
     return (
       <View style={styles.profilePictureContainer}>
@@ -59,29 +63,27 @@ const UserInfoItem = (props: UserInfoItemProps) => {
 
   return (
     <View style={[styles.container, style]} testID={testID}>
-      <View style={styles.horizontal}>
-        {renderProfilePicture()}
-        <View style={styles.nameContainer}>
-          <Text style={styles.text}>
-            {user.name} {user.lastName}
-          </Text>
+      <TouchableOpacity style={styles.fill} onPress={onShowDetailPress}>
+        <View style={styles.horizontal}>
+          {renderProfilePicture()}
+          <View style={styles.nameContainer}>
+            <Text style={styles.text}>
+              {user.name} {user.lastName}
+            </Text>
+          </View>
+          {Boolean(user.birthdate || user.country) && (
+            <TouchableOpacity style={styles.iconContainer} onPress={onShowDetailPress}>
+              <Icon
+                name={showDetails ? 'arrow-collapse-vertical' : 'arrow-expand-vertical'}
+                type="material-community"
+                size={25}
+                color={'#ff66a4'}
+              />
+            </TouchableOpacity>
+          )}
         </View>
-        {Boolean(user.birthdate || user.country) && (
-          <TouchableOpacity
-            style={styles.iconContainer}
-            onPress={() => {
-              setShowDetails(!showDetails);
-            }}>
-            <Icon
-              name={showDetails ? 'arrow-collapse-vertical' : 'arrow-expand-vertical'}
-              type="material-community"
-              size={25}
-              color={'#ff66a4'}
-            />
-          </TouchableOpacity>
-        )}
-      </View>
-      {showDetails && renderDetails()}
+        {showDetails && renderDetails()}
+      </TouchableOpacity>
     </View>
   );
 };

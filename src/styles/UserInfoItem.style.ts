@@ -4,9 +4,8 @@ export default StyleSheet.create({
   container: {
     padding: 15,
     backgroundColor: '#fff5fc',
-    alignItems: 'center',
     minHeight: 80,
-    width: '100%',
+    flex: 1,
   },
   fill: { flex: 1 },
   horizontal: { flexDirection: 'row' },
@@ -37,7 +36,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     width: 58,
     height: 58,
-    backgroundColor: 'white',
+    backgroundColor: '#7D5C8650',
     borderRadius: 29,
   },
   profilePicture: {

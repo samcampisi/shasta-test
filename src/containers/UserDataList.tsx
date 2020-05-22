@@ -2,7 +2,7 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Text, View, FlatList, ListRenderItemInfo } from 'react-native';
+import { Text, View, FlatList, ListRenderItemInfo, SafeAreaView } from 'react-native';
 import Icon from 'react-native-easy-icon';
 import { AppTabParamList } from '../App';
 import styles from '../styles/UserDataList.style';
@@ -56,7 +56,25 @@ const UserDataList = () => {
   };
 
   const renderListItem = (info: ListRenderItemInfo<User>) => {
-    return <UserInfoItem testID={`user-item-${info.item.id}`} user={info.item} />;
+    return (
+      <UserInfoItem
+        testID={`user-item-${info.item.id}`}
+        user={info.item}
+        style={info.index % 2 === 0 && styles.alternativeItem}
+      />
+    );
+  };
+
+  const renderSeparator = () => {
+    return <View style={styles.separator} />;
+  };
+
+  const renderHeader = () => {
+    return (
+      <SafeAreaView style={styles.header}>
+        <Text style={styles.headerText}>All saved users</Text>
+      </SafeAreaView>
+    );
   };
 
   const renderList = () => {
@@ -65,8 +83,9 @@ const UserDataList = () => {
         data={users}
         renderItem={renderListItem}
         keyExtractor={extractKey}
-        numColumns={3}
         removeClippedSubviews
+        ItemSeparatorComponent={renderSeparator}
+        ListHeaderComponent={renderHeader}
       />
     );
   };
