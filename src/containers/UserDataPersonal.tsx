@@ -20,6 +20,7 @@ import CountryPicker from 'react-native-country-picker-modal';
 import { AppTabParamList } from '../App';
 import styles, { sheetStyles } from '../styles/UserDataPersonal.style';
 import Button from '../components/Button';
+import Header from '../components/Header';
 import { animate, enableAnimation } from '../lib/animation';
 import { openCamera, openPicker } from '../lib/PickerManager';
 import CustomTextInput from '../components/CustomTextInput';
@@ -86,7 +87,7 @@ const UserDataPersonal = () => {
   const onUserSave = () => {
     dispatch(saveUser(user));
     setUser(blankUser);
-    NavigationService.navigate('Settings');
+    NavigationService.navigate('User Data List');
   };
 
   const renderActionSheet = () => {
@@ -216,7 +217,7 @@ const UserDataPersonal = () => {
   return (
     <SafeAreaView style={styles.container}>
       {renderActionSheet()}
-      <Text style={styles.title}>Add New User Data</Text>
+      <Header title="Add new user data" testID="header-user-data-personal" />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}>
