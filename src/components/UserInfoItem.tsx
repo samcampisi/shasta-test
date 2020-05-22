@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleProp, ViewStyle, Text, View, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-easy-icon';
+import emoji from 'node-emoji';
+import moment from 'moment';
 import styles from '../styles/UserInfoItem.style';
 import { User } from '../types';
 import { animate, enableAnimation } from '../lib/animation';
@@ -38,6 +40,23 @@ const UserInfoItem = (props: UserInfoItemProps) => {
     );
   };
 
+  const renderDetails = () => {
+    return (
+      <View style={[styles.horizontal, styles.bottomContainer]}>
+        <View style={styles.bottomItem}>
+          <Image source={require('../../assets/ic_birthday.png')} style={styles.bottomIcon} />
+          <Text style={styles.bottomText}>{moment(user.birthdate).format('L')}</Text>
+        </View>
+        <View style={styles.bottomItem}>
+          <Image source={require('../../assets/ic_location.png')} style={styles.bottomIcon} />
+          <Text style={styles.bottomText}>
+            {emoji.get(user.country?.flag)} {user.country?.name}
+          </Text>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <View style={[styles.container, style]} testID={testID}>
       <View style={styles.horizontal}>
@@ -57,11 +76,12 @@ const UserInfoItem = (props: UserInfoItemProps) => {
               name={showDetails ? 'arrow-collapse-vertical' : 'arrow-expand-vertical'}
               type="material-community"
               size={25}
-              color={'#666666'}
+              color={'#ff66a4'}
             />
           </TouchableOpacity>
         )}
       </View>
+      {showDetails && renderDetails()}
     </View>
   );
 };

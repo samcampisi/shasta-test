@@ -3,10 +3,10 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     padding: 15,
-    backgroundColor: '#ffe9fe',
-    flexDirection: 'row',
+    backgroundColor: '#fff5fc',
     alignItems: 'center',
     minHeight: 80,
+    width: '100%',
   },
   fill: { flex: 1 },
   horizontal: { flexDirection: 'row' },
@@ -44,5 +44,22 @@ export default StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
+  },
+  bottomContainer: {
+    marginTop: 15,
+  },
+  bottomText: {
+    fontSize: 15,
+    marginLeft: 8,
+  },
+  bottomItem: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bottomIcon: {
+    width: 25,
+    height: 25,
   },
 });
