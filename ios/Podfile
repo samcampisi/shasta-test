@@ -44,8 +44,8 @@ def flipper_post_install(installer)
   end
 end
 
-target 'TypescriptReactNativeStarter' do
-  # Pods for TypescriptReactNativeStarter
+target 'userManagementTest' do
+  # Pods for userManagementTest
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -77,7 +77,7 @@ target 'TypescriptReactNativeStarter' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  target 'TypescriptReactNativeStarterTests' do
+  target 'userManagementTestTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -94,10 +94,10 @@ target 'TypescriptReactNativeStarter' do
   end
 end
 
-target 'TypescriptReactNativeStarter-tvOS' do
-  # Pods for TypescriptReactNativeStarter-tvOS
+target 'userManagementTest-tvOS' do
+  # Pods for userManagementTest-tvOS
 
-  target 'TypescriptReactNativeStarter-tvOSTests' do
+  target 'userManagementTest-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
