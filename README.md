@@ -13,6 +13,10 @@ It features 3 screens:
 
 It also features a "logout" functionality that allows a "logged in" user to reset the current session (current username active on my reducer).
 
+## Example of some functionalities
+
+![alt text](https://github.com/samcampisi/shasta-test/raw/master/example.gif 'Example')
+
 ## How to install
 
 - `git clone git@github.com:samcampisi/shasta-test.git`
