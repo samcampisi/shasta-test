@@ -40,11 +40,4 @@ export default StyleSheet.create({
     backgroundColor: '#CCCCCC',
     alignSelf: 'flex-end',
   },
-  header: {
-    alignItems: 'center',
-  },
-  headerText: {
-    fontSize: 16,
-    marginVertical: 10,
-  },
 });

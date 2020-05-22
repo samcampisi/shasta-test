@@ -2,7 +2,7 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteProp } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Text, View, FlatList, ListRenderItemInfo, SafeAreaView } from 'react-native';
+import { Text, View, FlatList, ListRenderItemInfo } from 'react-native';
 import Icon from 'react-native-easy-icon';
 import { AppTabParamList } from '../App';
 import styles from '../styles/UserDataList.style';
@@ -10,6 +10,7 @@ import { animate, enableAnimation } from '../lib/animation';
 import NavigationService from '../lib/NavigationService';
 import { User } from '../types';
 import UserInfoItem from '../components/UserInfoItem';
+import Header from '../components/Header';
 
 export interface UserDataListProps {
   username: string;
@@ -70,11 +71,7 @@ const UserDataList = () => {
   };
 
   const renderHeader = () => {
-    return (
-      <SafeAreaView style={styles.header}>
-        <Text style={styles.headerText}>All saved users</Text>
-      </SafeAreaView>
-    );
+    return <Header title="All saved users" testID="header-user-data-list" />;
   };
 
   const renderList = () => {
