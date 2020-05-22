@@ -4,8 +4,10 @@ import UserDataPersonal from './containers/UserDataPersonal';
 import Logout from './containers/Logout';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Icon from 'react-native-easy-icon';
+import SplashScreen from 'react-native-splash-screen';
 import 'react-native-gesture-handler';
 import { Alert } from 'react-native';
 import NavigationService from './lib/NavigationService';
@@ -22,6 +24,10 @@ export type AppTabParamList = {
 const App = () => {
   const username = useSelector((state: any) => state.users.username);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
 
   const onLogout = () => {
     dispatch(resetUser());
